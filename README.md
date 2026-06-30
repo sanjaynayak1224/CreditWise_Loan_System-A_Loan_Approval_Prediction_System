@@ -121,4 +121,4 @@ pip install -r requirements.txt
 *(If a `requirements.txt` is not present, install manually: `pip install pandas numpy scikit-learn seaborn matplotlib ipykernel`)*
 
 ### 4. Run the Jupyter Notebook
-Open the notebook in your IDE (VS Code has been pre-configured to select the `.venv` interpreter path in `.vscode/settings.json`), select the `.venv` kernel, and execute all cells.
+Open the notebook in your IDE, select the `.venv` virtual environment as your kernel, and execute all cells.
