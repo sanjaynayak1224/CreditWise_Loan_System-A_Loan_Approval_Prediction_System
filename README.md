@@ -19,37 +19,31 @@ The project follows a standard machine learning workflow, from clean-up to evalu
 
 To get the raw application data ready for modeling, I built a structured preprocessing pipeline:
 
-* **Cleaning up the noise**: I dropped the `Applicant_ID` column right away since it's just a database key and would cause the model to overfit. Any missing values in the numeric features were imputed with the mean, while missing categorical values were filled with the most frequent category.
-* **Exploring the patterns (EDA)**: I noticed a pretty significant class imbalance—about **70% of the applicants were approved, while 30% were rejected**. The data also showed a clear signal: applicants with a credit score above `650` were far more likely to get approved.
+- **Cleaning up the noise**: I dropped the `Applicant_ID` column right away since it's just a database key and would cause the model to overfit. Any missing values in the numeric features were imputed with the mean, while missing categorical values were filled with the most frequent category.
+- **Exploring the patterns (EDA)**: I noticed a pretty significant class imbalance—about **70% of the applicants were approved, while 30% were rejected**. The data also showed a clear signal: applicants with a credit score above `650` were far more likely to get approved.
 
   ![Exploratory Data Analysis](eda.png)
   ![Feature Correlation Heatmap](feature_correlation_heatmap.png)
-* **Encoding variables**: I converted ordinal categories (like `Education_Level`) using simple label encoding, and nominal categories (like `Employment_Status` or `Marital_Status`) using one-hot encoding. I also made sure to drop the first category in the one-hot encoding to avoid the dummy variable trap (multicollinearity).
-* **Feature Scaling**: Since distance-based models like KNN and linear coefficients in Logistic Regression are sensitive to scale, I passed all continuous features through `StandardScaler` to keep everything on an even playing field.
+
+- **Encoding variables**: I converted ordinal categories (like `Education_Level`) using simple label encoding, and nominal categories (like `Employment_Status` or `Marital_Status`) using one-hot encoding. I also made sure to drop the first category in the one-hot encoding to avoid the dummy variable trap (multicollinearity).
+- **Feature Scaling**: Since distance-based models like KNN and linear coefficients in Logistic Regression are sensitive to scale, I passed all continuous features through `StandardScaler` to keep everything on an even playing field.
 
 ---
 
 ## 📊 Model Evaluation & Results
 
 To find the best approach, I trained and compared **Logistic Regression**, **Naive Bayes**, and **K-Nearest Neighbors (KNN)**. Each model was evaluated in two configurations:
-* **Baseline**: Trained on standard, cleaned features.
-* **Fine-Tuned / Engineered**: Trained after adding engineered polynomial features (specifically `DTI_Ratio_sq` ($DTI^2$) and `Credit_Score_sq` ($Score^2$)), while dropping the original linear variables to prevent collinearity issues.
 
-| Model & Stage | Accuracy | Precision | Recall | F1-Score | Confusion Matrix (TN, FP, FN, TP) |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Logistic Regression (Baseline)** | 86.5% | 78.3% | 77.0% | 77.7% | `[[126, 13], [14, 47]]` |
-| **Logistic Regression (Fine-Tuned)** | **87.5%** | **79.0%** | **80.3%** | **79.7%** | `[[126, 13], [12, 49]]` |
-| **Naive Bayes (Baseline)** | 86.5% | 80.4% | 73.8% | 76.9% | `[[128, 11], [16, 45]]` |
-| **Naive Bayes (Fine-Tuned)** | 86.5% | 78.3% | 77.0% | 77.7% | `[[126, 13], [14, 47]]` |
-| **KNN Classifier (Baseline)** | 76.0% | 62.7% | 52.5% | 57.1% | `[[120, 19], [29, 32]]` |
-| **KNN Classifier (Fine-Tuned)** | 75.5% | 62.0% | 50.8% | 55.9% | `[[120, 19], [30, 31]]` |
+- **Baseline**: Trained on standard, cleaned features.
+- **Fine-Tuned / Engineered**: Trained after adding engineered polynomial features (specifically `DTI_Ratio_sq` ($DTI^2$) and `Credit_Score_sq` ($Score^2$)), while dropping the original linear variables to prevent collinearity issues.
 
 ![Model Performance Comparison](model_performance_comparison.png)
 
 ### 💡 What the numbers tell us
-* **Tuning paid off for Logistic Regression**: By adding quadratic features for the DTI Ratio and Credit Score ($DTI^2$ and $Score^2$), the model got better at capturing non-linear behavior. This push raised the accuracy to **87.5%** and recall to **80.3%**, which is exactly what a lending institution wants (catching more qualified borrowers while keeping defaults low).
-* **Naive Bayes holds its own**: The baseline Naive Bayes model actually had the highest initial precision (**80.4%**), which means it's very reliable when it predicts a loan will be approved.
-* **KNN was held back by the dimensionality**: After one-hot encoding our categories, the feature space expanded to 28 columns. Because KNN relies on Euclidean distance, this high-dimensional space made the data points feel far apart (the 'curse of dimensionality'), dropping its accuracy to **76.0%**.
+
+- **Tuning paid off for Logistic Regression**: By adding quadratic features for the DTI Ratio and Credit Score ($DTI^2$ and $Score^2$), the model got better at capturing non-linear behavior. This push raised the accuracy to **87.5%** and recall to **80.3%**, which is exactly what a lending institution wants (catching more qualified borrowers while keeping defaults low).
+- **Naive Bayes holds its own**: The baseline Naive Bayes model actually had the highest initial precision (**80.4%**), which means it's very reliable when it predicts a loan will be approved.
+- **KNN was held back by the dimensionality**: After one-hot encoding our categories, the feature space expanded to 28 columns. Because KNN relies on Euclidean distance, this high-dimensional space made the data points feel far apart (the 'curse of dimensionality'), dropping its accuracy to **76.0%**.
 
 ---
 
@@ -73,28 +67,33 @@ If I had more time or were preparing this for a production launch, here are the 
 If you want to pull this down and run the notebook on your local machine, here is the quick-start guide:
 
 ### 1. Clone and Navigate
+
 ```bash
 git clone <repository-url>
 cd CreditWise_Loan_System-A_Loan_Approval_Prediction_System
 ```
 
 ### 2. Spin Up a Virtual Environment
-* **On Windows (PowerShell):**
+
+- **On Windows (PowerShell):**
   ```powershell
   python -m venv .venv
   .venv\Scripts\Activate.ps1
   ```
-* **On macOS/Linux:**
+- **On macOS/Linux:**
   ```bash
   python3 -m venv .venv
   source .venv/bin/activate
   ```
 
 ### 3. Install the Packages
+
 ```bash
 pip install -r requirements.txt
 ```
-*(Note: If you run into any issues, the core dependencies are `pandas`, `numpy`, `scikit-learn`, `seaborn`, `matplotlib`, and `ipykernel`.)*
+
+_(Note: If you run into any issues, the core dependencies are `pandas`, `numpy`, `scikit-learn`, `seaborn`, `matplotlib`, and `ipykernel`.)_
 
 ### 4. Open and Run the Notebook
+
 Open `CreditWiseLoanSystem.ipynb` in your favorite IDE (like VS Code or Jupyter Lab), select the `.venv` environment as your kernel, and run all cells to see the data prep and model results in action.
