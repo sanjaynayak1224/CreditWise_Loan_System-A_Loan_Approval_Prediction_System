@@ -55,15 +55,6 @@ We trained and evaluated three classification models under two configurations:
 
 The exact metrics computed from our test set split (20% holdout) are summarized below:
 
-| Model                   | Configuration               | Accuracy  | Precision |  Recall   | F1-Score  |
-| :---------------------- | :-------------------------- | :-------: | :-------: | :-------: | :-------: |
-| **Logistic Regression** | Baseline                    |   86.5%   |   78.3%   |   77.1%   |   77.7%   |
-|                         | **Fine-Tuned (Polynomial)** | **88.0%** | **78.5%** | **83.6%** | **81.0%** |
-| **Naive Bayes**         | Baseline                    |   86.5%   |   80.4%   |   73.8%   |   76.9%   |
-|                         | Fine-Tuned (Polynomial)     |   86.0%   |   81.1%   |   70.5%   |   75.4%   |
-| **K-Nearest Neighbors** | Baseline                    |   76.0%   |   62.7%   |   52.5%   |   57.1%   |
-|                         | Fine-Tuned (Polynomial)     |   78.5%   |   67.3%   |   57.4%   |   61.9%   |
-
 ![Model Performance Comparison](model_performance_comparison.png)
 
 ### 💡 Key Insights
