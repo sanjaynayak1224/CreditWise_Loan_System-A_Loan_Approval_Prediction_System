@@ -21,7 +21,7 @@ The project follows a structured end-to-end pipeline, summarized below:
   <img src="pipeline.png" alt="The Pipeline & Modeling Workflow" width="550">
 </p>
 
-### Behind the Scenes: Preprocessing & Pipeline Construction
+### Behind the Scenes: Preprocessing & Pipeline Construction 
 
 To prepare raw application data for modeling and prevent data leakage:
 
