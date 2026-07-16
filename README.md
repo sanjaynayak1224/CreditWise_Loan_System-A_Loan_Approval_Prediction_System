@@ -13,18 +13,7 @@ An end-to-end machine learning project built to help lending institutions automa
 
 The project follows a standard machine learning workflow, from clean-up to evaluation. Here is the general structure:
 
-```mermaid
-graph TD
-    A[Raw Loan Application Data] --> B[Data Cleaning & Imputation]
-    B --> C[Exploratory Data Analysis - EDA]
-    C --> D[Feature Encoding & Selection]
-    D --> E[Feature Scaling & Train-Test Split]
-    E --> F[Model Training - Baseline]
-    F --> G[Evaluation Metrics Calculation]
-    G --> H[Feature Engineering - Interaction Terms]
-    H --> I[Model Fine-Tuning & Re-evaluation]
-    I --> J[Production-Ready Model Selection]
-```
+![The Pipeline & Modeling Workflow](pipeline.png)
 
 ### Behind the Scenes: How the Pipeline is Built
 
@@ -32,6 +21,9 @@ To get the raw application data ready for modeling, I built a structured preproc
 
 * **Cleaning up the noise**: I dropped the `Applicant_ID` column right away since it's just a database key and would cause the model to overfit. Any missing values in the numeric features were imputed with the mean, while missing categorical values were filled with the most frequent category.
 * **Exploring the patterns (EDA)**: I noticed a pretty significant class imbalance—about **70% of the applicants were approved, while 30% were rejected**. The data also showed a clear signal: applicants with a credit score above `650` were far more likely to get approved.
+
+  ![Exploratory Data Analysis](eda.png)
+  ![Feature Correlation Heatmap](feature_correlation_heatmap.png)
 * **Encoding variables**: I converted ordinal categories (like `Education_Level`) using simple label encoding, and nominal categories (like `Employment_Status` or `Marital_Status`) using one-hot encoding. I also made sure to drop the first category in the one-hot encoding to avoid the dummy variable trap (multicollinearity).
 * **Feature Scaling**: Since distance-based models like KNN and linear coefficients in Logistic Regression are sensitive to scale, I passed all continuous features through `StandardScaler` to keep everything on an even playing field.
 
@@ -51,6 +43,8 @@ To find the best approach, I trained and compared **Logistic Regression**, **Nai
 | **Naive Bayes (Fine-Tuned)** | 86.5% | 78.3% | 77.0% | 77.7% | `[[126, 13], [14, 47]]` |
 | **KNN Classifier (Baseline)** | 76.0% | 62.7% | 52.5% | 57.1% | `[[120, 19], [29, 32]]` |
 | **KNN Classifier (Fine-Tuned)** | 75.5% | 62.0% | 50.8% | 55.9% | `[[120, 19], [30, 31]]` |
+
+![Model Performance Comparison](model_performance_comparison.png)
 
 ### 💡 What the numbers tell us
 * **Tuning paid off for Logistic Regression**: By adding quadratic features for the DTI Ratio and Credit Score ($DTI^2$ and $Score^2$), the model got better at capturing non-linear behavior. This push raised the accuracy to **87.5%** and recall to **80.3%**, which is exactly what a lending institution wants (catching more qualified borrowers while keeping defaults low).
