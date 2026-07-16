@@ -17,7 +17,9 @@ In traditional banking, credit underwriting can be slow, manual, and prone to su
 
 The project follows a structured end-to-end pipeline, summarized below:
 
-![The Pipeline & Modeling Workflow](pipeline.png)
+<p align="center">
+  <img src="pipeline.png" alt="The Pipeline & Modeling Workflow" width="550">
+</p>
 
 ### Behind the Scenes: Preprocessing & Pipeline Construction
 
@@ -39,8 +41,13 @@ Our initial exploration revealed key patterns in applicant profiles:
 - **Class Imbalance**: Approximately **70%** of applications in the dataset were approved, while **30%** were rejected. This imbalance naturally skews model training and is a target for future optimization.
 - **Credit Score Signal**: There is a distinct approval boundary; applicants with credit scores above `650` are significantly more likely to receive approvals.
 
-![Exploratory Data Analysis](eda.png)
-![Feature Correlation Heatmap](feature_correlation_heatmap.png)
+<p align="center">
+  <img src="eda.png" alt="Exploratory Data Analysis" width="800">
+</p>
+
+<p align="center">
+  <img src="feature_correlation_heatmap.png" alt="Feature Correlation Heatmap" width="800">
+</p>
 
 ---
 
@@ -55,7 +62,9 @@ We trained and evaluated three classification models under two configurations:
 
 The exact metrics computed from our test set split (20% holdout) are summarized below:
 
-![Model Performance Comparison](model_performance_comparison.png)
+<p align="center">
+  <img src="model_performance_comparison.png" alt="Model Performance Comparison" width="800">
+</p>
 
 ### 💡 Key Insights
 
